@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical AI Support</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ヘッダー -->
+  <header class="navbar">
+    <div class="logo" onclick="goToHome()" style="cursor: pointer;">
+      <span class="icon">🩺</span>
+      <span class="logo-text">Medical AI</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#" onclick="goToHome()">Home</a>
+      <a href="#" onclick="goToAbout()">About</a>
+      <a href="#" onclick="goToService()">Service</a>
+      <a href="#" onclick="goToConsult()">Contact Us</a>
+    </nav>
+  </header>
+
+  <main class="main-container">
+
+    <!-- ================= 画面①：トップ画面 ================= -->
+    <div id="home-screen" class="screen">
+      <div class="hero-section">
+        <div class="hero-text-box">
+          <h1 class="hero-title">気になること<br>なんでも相談</h1>
+          <p class="hero-sub">AIが24時間あなたの健康をサポートします</p>
+        </div>
+        <div class="mascot-box">
+          <span class="mascot-sticker">🩺💬</span>
+        </div>
+      </div>
+
+      <div class="action-box">
+        <button class="start-btn" onclick="goToChat()">はじめる</button>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card" onclick="goToFirstAid()">
+          <div class="feature-icon">🩹</div>
+          <p>対処ガイド</p>
+        </div>
+        <div class="feature-card" onclick="openDeptSelection('病院')">
+          <div class="feature-icon">🏥</div>
+          <p>病院検索</p>
+        </div>
+        <div class="feature-card" onclick="openSearchModal('薬局')">
+          <div class="feature-icon">💊</div>
+          <p>薬局検索</p>
+        </div>
+        <div class="feature-card" onclick="goToConsult()">
+          <div class="feature-icon">👨‍⚕️</div>
+          <p>AI相談</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 画面：About（サイトについて） ================= -->
+    <div id="about-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">ℹ️</div>
+        <h2>Medical AIについて</h2>
+        <p class="sub-text">当サイトは、地域の皆様の健康と医療アクセスをサポートするサービスです。</p>
+
+        <div class="service-section">
+          <ul class="usage-list">
+            <li><strong>💡 24時間AI健康相談：</strong> いつでも手軽に気になる症状や体調不良を相談できます。</li>
+            <li><strong>🏥 スムーズな病院・薬局探し：</strong> GPSや地域指定、各診療科ごとに近くの医療機関を素早く検索できます。</li>
+            <li><strong>🩹 応急処置ガイド：</strong> 急な病気や怪我に対して、ご自宅でできる適切な対処法を確認できます。</li>
+          </ul>
+        </div>
+
+        <button class="back-link" onclick="goToHome()">← ホームに戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面：Service（サービス・設定） ================= -->
+    <div id="service-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">⚙️</div>
+        <h2>サービス・設定</h2>
+        <p class="sub-text">言語の設定や、サイトの使い方をご確認いただけます。</p>
+
+        <div class="service-section">
+          <h3>🌐 Language / 言語選択</h3>
+          <div class="language-select-box">
+            <select id="language-select" onchange="changeLanguage()">
+              <option value="ja">日本語 (Japanese)</option>
+              <option value="en">English (英語)</option>
+              <option value="zh">中文 (中国語)</option>
+              <option value="ko">한국어 (韓国語)</option>
+              <option value="es">Español (スペイン語)</option>
+              <option value="vi">Tiếng Việt (ベトナム語)</option>
+              <option value="tl">Tagalog (タガログ語)</option>
+            </select>
+          </div>
+          <p id="lang-msg" class="info-note"></p>
+        </div>
+
+        <hr class="divider">
+
+        <div class="service-section">
+          <h3>📖 このサイトの使い方</h3>
+          <ul class="usage-list">
+            <li><strong>🩹 対処ガイド：</strong> 発熱・お腹の痛み・やけどなど、様々な病気・怪我の対処法を確認できます。</li>
+            <li><strong>🏥 診療科から病院検索：</strong> 内科、整形外科など行きたい科を選んでマップ検索や予約が可能です。</li>
+            <li><strong>💬 Contact Us（AI相談）：</strong> 症状を入力するとAIが受診すべき診療科などをアドバイスします。</li>
+          </ul>
+        </div>
+
+        <button class="back-link" onclick="goToHome()">← ホームに戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面②：メニュー選択画面 ================= -->
+    <div id="chat-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">👨‍⚕️</div>
+        
+        <div class="chat-message-box">
+          <h2>こんにちは！</h2>
+          <p>今日はどのようなお手伝いをしましょうか？</p>
+        </div>
+
+        <div class="chat-options">
+          <button class="option-btn" onclick="goToFirstAid()">🩹 病気・けがの対処法を知りたい</button>
+          <button class="option-btn" onclick="openDeptSelection('病院')">🏥 近くの病院を探したい（診療科選択）</button>
+          <button class="option-btn" onclick="openSearchModal('薬局')">💊 近くの薬局を探したい</button>
+          <button class="option-btn" onclick="goToConsult()">💬 症状を相談したい（AI相談）</button>
+        </div>
+
+        <button class="back-link" onclick="goToHome()">← 最初の画面に戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面：診療科の選択画面（新機能） ================= -->
+    <div id="dept-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">🏥</div>
+        <h2>診療科を選んでください</h2>
+        <p class="sub-text">かかりたい診療科を選んで検索・予約へ進みます。</p>
+
+        <div class="dept-grid">
+          <div class="dept-card">
+            <span>🩺 内科</span>
+            <div class="dept-btns">
+              <button onclick="selectDepartment('内科')">検索</button>
+              <button class="reserve-btn" onclick="openReserveModal('内科')">予約</button>
+            </div>
+          </div>
+          <div class="dept-card">
+            <span>🦴 整形外科</span>
+            <div class="dept-btns">
+              <button onclick="selectDepartment('整形外科')">検索</button>
+              <button class="reserve-btn" onclick="openReserveModal('整形外科')">予約</button>
+            </div>
+          </div>
+          <div class="dept-card">
+            <span>👂 耳鼻咽喉科</span>
+            <div class="dept-btns">
+              <button onclick="selectDepartment('耳鼻咽喉科')">検索</button>
+              <button class="reserve-btn" onclick="openReserveModal('耳鼻咽喉科')">予約</button>
+            </div>
+          </div>
+          <div class="dept-card">
+            <span>皮膚科</span>
+            <div class="dept-btns">
+              <button onclick="selectDepartment('皮膚科')">検索</button>
+              <button class="reserve-btn" onclick="openReserveModal('皮膚科')">予約</button>
+            </div>
+          </div>
+          <div class="dept-card">
+            <span>👶 小児科</span>
+            <div class="dept-btns">
+              <button onclick="selectDepartment('小児科')">検索</button>
+              <button class="reserve-btn" onclick="openReserveModal('小児科')">予約</button>
+            </div>
+          </div>
+          <div class="dept-card">
+            <span>👁️ 眼科</span>
+            <div class="dept-btns">
+              <button onclick="selectDepartment('眼科')">検索</button>
+              <button class="reserve-btn" onclick="openReserveModal('眼科')">予約</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="back-link" onclick="goToChat()">← メニューに戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面：予約申し込み画面（新機能） ================= -->
+    <div id="reserve-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">📅</div>
+        <h2 id="reserve-title">診療予約</h2>
+        <p class="sub-text">ご希望の日時と情報をご入力ください。</p>
+
+        <div class="reserve-form">
+          <div class="form-group">
+            <label>お名前：</label>
+            <input type="text" id="res-name" placeholder="例：山田 太郎">
+          </div>
+          <div class="form-group">
+            <label>希望日時：</label>
+            <input type="datetime-local" id="res-date">
+          </div>
+          <div class="form-group">
+            <label>メモ・気になる症状：</label>
+            <input type="text" id="res-memo" placeholder="例：発熱と強い咳があります">
+          </div>
+          <button class="start-btn" onclick="submitReservation()">予約を確定する</button>
+        </div>
+
+        <div id="reserve-result" class="result-box hidden"></div>
+
+        <button class="back-link" onclick="openDeptSelection('病院')">← 診療科選択に戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面③：リアル検索画面 ================= -->
+    <div id="search-modal-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar" id="search-icon">🏥</div>
+        <h2 id="search-title">近くの病院を探す</h2>
+        <p class="sub-text">検索方法を選んでください（すぐにマップが開きます）</p>
+
+        <div class="chat-options">
+          <button class="option-btn" onclick="searchByCurrentLocation()">📍 今いる現在地から今すぐ探す (GPS)</button>
+          <button class="option-btn secondary" onclick="searchByArea('大阪市生野区')">🏙️ 大阪市生野区で探す</button>
+        </div>
+
+        <div class="custom-search-box">
+          <p class="label-text">ほかの地域で検索する場合：</p>
+          <div class="input-row">
+            <input type="text" id="area-input" placeholder="例：難波、天王寺、生野区勝山">
+            <button class="search-submit-btn" onclick="searchByCustomInput()">検索</button>
+          </div>
+        </div>
+
+        <button class="back-link" onclick="openDeptSelection('病院')">← 診療科選択に戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面④：いろいろな病気・けがの対処ガイド画面 ================= -->
+    <div id="first-aid-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">🌡️</div>
+        <h2>病気・応急対処ガイド</h2>
+        <p class="sub-text">気になる症状や病気・部位を選んでください。</p>
+
+        <div class="chat-options">
+          <button class="option-btn secondary" onclick="showAidDetail('かぜ・熱')">🤒 発熱・かぜ（熱・のどの痛み・咳）</button>
+          <button class="option-btn secondary" onclick="showAidDetail('腹痛・吐き気')">🤢 お腹の痛み・吐き気・下痢・食中毒</button>
+          <button class="option-btn secondary" onclick="showAidDetail('頭痛・めまい')">🧠 頭痛・めまい・立ちくらみ</button>
+          <button class="option-btn secondary" onclick="showAidDetail('熱中症')">☀️ 熱中症・気分の悪さ</button>
+          <button class="option-btn secondary" onclick="showAidDetail('眼・耳の異常')">👁️ 目のかゆみ・耳の痛み・鼻水</button>
+          <button class="option-btn secondary" onclick="showAidDetail('打撲・出血')">🖐️ 切り傷・出血・打撲・ねんざ</button>
+          <button class="option-btn secondary" onclick="showAidDetail('やけど')">🔥 やけど（火傷）</button>
+        </div>
+
+        <div id="aid-result" class="result-box hidden"></div>
+
+        <button class="back-link" onclick="goToChat()">← メニューに戻る</button>
+      </div>
+    </div>
+
+    <!-- ================= 画面⑤：AI症状相談画面（Contact Us） ================= -->
+    <div id="consult-screen" class="screen hidden">
+      <div class="chat-card">
+        <div class="doctor-avatar">💬</div>
+        <h2>AI症状相談 (Contact Us)</h2>
+        <p class="sub-text">かぜ症状・痛み・体調不良など何でも自由に入力してください。</p>
+
+        <div class="input-group">
+          <textarea id="symptom-input" placeholder="例：昨日から38度の熱があり、のどが痛くて関節もしんどいです。"></textarea>
+          <button class="start-btn" onclick="analyzeSymptom()">AIに相談する</button>
+        </div>
+
+        <div id="consult-result" class="result-box hidden"></div>
+
+        <button class="back-link" onclick="goToChat()">← メニューに戻る</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    Made with ❤️
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
